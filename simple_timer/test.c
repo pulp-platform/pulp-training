@@ -48,6 +48,19 @@ int main()
   //set value to perform comparison
   hal_timer_cmp_set(hal_timer_fc_addr(0, 1), timer);
 
+  //disable all the interrupts in the INTC
+  hal_itc_enable_value_set(0);
+
+  //enable the interrupts of the timer in the INTC
+  //hal_itc_enable_set(mask);
+  /* ADD HERE */
+
+  //Set the ISR
+  //rt_irq_set_handler (interrupt number, function pointer);
+  /* ADD HERE */
+
+  printf("Going to sleep.... (ninterrupts %d) \n",ninterrupts );
+
   //enable timer and interrupt generation
   hal_timer_conf(
     hal_timer_fc_addr(0, 1), PLP_TIMER_ACTIVE, PLP_TIMER_RESET_DISABLED,
@@ -55,12 +68,6 @@ int main()
     PLP_TIMER_ONE_SHOT_DISABLED, PLP_TIMER_REFCLK_ENABLED,
     PLP_TIMER_PRESCALER_DISABLED, 0, PLP_TIMER_MODE_64_DISABLED
   );
-
-  //write in the instruction memory that the interrupt service routing for IRQ ARCHI_FC_EVT_TIMER1 (11)
-  //is at __test_timer_handler address
-  rt_irq_set_handler (ARCHI_FC_EVT_TIMER1, __test_timer_handler);
-
-  printf("Going to sleep.... time is %u (ninterrupts %d) \n",current_time, ninterrupts );
 
   rt_irq_restore(irq);
 
@@ -70,7 +77,7 @@ int main()
 
   unsigned int wokeup = hal_timer_count_get(hal_timer_fc_addr(0, 1)) * ( 1000000 / ARCHI_REF_CLOCK);
 
-  printf("Woken up.... time is %u (ninterrupts %d)\n", wokeup, ninterrupts);
+  printf("Woken up.... (ninterrupts %d)\n", ninterrupts);
 
   rt_irq_restore(irq);
 
