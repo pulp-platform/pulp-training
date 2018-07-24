@@ -3,8 +3,8 @@
 
 #define DATA_WIDTH 14
 #define DATA_TYPE 16
-#define IMG_ROW 64
-#define IMG_COL 64
+#define IMG_ROW 16
+#define IMG_COL 16
 #define IMG_DIM IMG_ROW*IMG_COL
 
 #define CONV_DIM (IMG_ROW-4)*(IMG_COL-4)
