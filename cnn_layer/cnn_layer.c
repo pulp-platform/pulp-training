@@ -12,31 +12,26 @@
 #include "cnn_layer.h"
 
 static Pixel PULP_L2_DATA  Out[OUT_DIM];
-static Pixel PULP_L2_DATA  In[IMG_DIM];
-static Filtc PULP_L2_DATA  Kernel[FILT_DIM];
 
 void check_CNN_5x5_Scalar          ();
 void check_CNN_5x5_Vector          ();
-void check_CNN_5x5_Scalar_Fused    ();
-void check_CNN_5x5_Vector_Fused    ();
 
 int main()
 {
   
-  int errors;
-  
+#ifdef DOTP
+  check_CNN_5x5_Vector();
+#else
   check_CNN_5x5_Scalar();
+#endif
   
-  return errors;
+  return 0;
   
 }
 
 void check_CNN_5x5_Scalar() {
   
   // start benchmark
-  Filtc Kernel5x5_Scalar[FILT_DIM];
-  Pixel In[IMG_DIM];
-  
   printf("CNN WINDOW=%d, DATA_WIDTH=%d\n",FILT_WIN,DATA_WIDTH);
   InitZero(Out, OUT_DIM);
   
@@ -52,21 +47,15 @@ void check_CNN_5x5_Scalar() {
 }
 
 void check_CNN_5x5_Vector() {
-
-  // start benchmark
-  Filtc Kernel5x5_Vector[FILT_DIM];
-  Pixel In[IMG_DIM];
-
-
+  
   printf("CNN WINDOW=%d, DATA_WIDTH=%d\n",FILT_WIN,DATA_WIDTH);
-  //  InitKernel(Kernel5x5_Vector,FILT_WIN);
-  // InitData(In, IMG_DIM);
+  
   InitZero(Out, OUT_DIM);
   
   reset_timer();
   start_timer();
   
-  CNN_layer_Vector(In, Out, IMG_ROW, IMG_COL, Kernel5x5_Vector);
+  CNN_layer_Vector(In_Img, Out, IMG_ROW, IMG_COL, Filter_Kern);
   
   stop_timer();
   printf("Number of cycles: %d\n ",get_time());
@@ -78,7 +67,7 @@ void __attribute__ ((noinline)) InitZero(Pixel * __restrict__ Img, int size)
 {
   int i;
   
-  for (i=0; i < size; i++) 
+  for (i=0; i < size; i++)
     Img[i] = 0;
 
 }

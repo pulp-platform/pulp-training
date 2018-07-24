@@ -8,13 +8,14 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the
 // specific language governing permissions and limitations under the License.
 
+#include "pulp.h"
 #include "cnn_layer.h"
 #include <stdio.h>
 
 #define ROUNDBIT   (1 << (DATA_WIDTH -1 -1))
 #define SATURATION ((1 << (DATA_WIDTH -1)) -1)
 
-static Pixel __attribute__ ((section(".heapsram")))  Conv_Img[CONV_DIM];
+static Pixel PULP_L2_DATA  Conv_Img[CONV_DIM];
 
 void __attribute__ ((noinline)) CNN_layer_Scalar  (Pixel * In_Img, Pixel * Out_Img, int R, int C, Filtc  * Kernel)
 {
@@ -69,7 +70,7 @@ void __attribute__ ((noinline)) Conv5x5_Scalar  (Pixel * In_Img, Pixel * Out_Img
   }
 }
 
-#ifdef VEC
+#ifdef DOTP
 void __attribute__ ((noinline)) CNN_layer_Vector  (Pixel * In_Img, Pixel * Out_Img, int R, int C, Filtc  * Kernel)
 {
 

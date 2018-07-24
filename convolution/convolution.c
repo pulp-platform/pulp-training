@@ -10,14 +10,10 @@
 #include "pulp.h"
 #include "convolution.h"
 
-void check_Conv3x3_Scalar();
-void check_Conv3x3_Vector();
 void check_Conv5x5_Scalar();
 void check_Conv5x5_Vector();
 
 RT_L2_DATA Pixel Out[IMG_DIM];
-RT_L2_DATA Pixel In[IMG_DIM];
-RT_L2_DATA Pixel Kernel[FILT_DIM];
 
 int main()
 {
@@ -38,17 +34,14 @@ void check_Conv5x5_Scalar() {
   // start benchmark
   Filtc Kernel5x5_Scalar[FILT_DIM];
   Pixel In[IMG_DIM];
-
-
+  
   printf("2D Convolution WINDOW=%d, DATA_WIDTH=%d\n",FILT_WIN,DATA_WIDTH);
-  InitKernel(Kernel5x5_Scalar,FILT_WIN);
-  InitData(In, IMG_DIM);
   InitZero(Out, IMG_DIM);
   
   reset_timer();
   start_timer();
   
-  Conv5x5_Scalar(In, Out, IMG_ROW, IMG_COL, Kernel5x5_Scalar);
+  Conv5x5_Scalar(In_Img, Out, IMG_ROW, IMG_COL, Filter_Kern);
   
   stop_timer();
   
@@ -59,26 +52,20 @@ void check_Conv5x5_Scalar() {
 }
 
 void check_Conv5x5_Vector() {
-
-  // start benchmark
-  Filtc Kernel5x5_Vector[FILT_DIM];
-  Pixel In[IMG_DIM];
   
   printf("2D Convolution WINDOW=%d, DATA_WIDTH=%d\n",FILT_WIN,DATA_WIDTH);
-  InitKernel(Kernel5x5_Vector,FILT_WIN);
-  InitData(In, IMG_DIM);
   InitZero(Out, IMG_DIM);
   
   reset_timer();
   start_timer();
   
-  Conv5x5_Vector(In, Out, IMG_ROW, IMG_COL, Kernel5x5_Vector);
-    
+  Conv5x5_Vector(In_Img, Out, IMG_ROW, IMG_COL, Filter_Kern);
+  
   stop_timer();
   printf("Number of cycles: %d\n ",get_time());
   
   checkresult(Out, Gold_Out_Img, IMG_DIM);
-
+  
 }
 
 // load kernel
