@@ -12,39 +12,31 @@
 
 #include "config.h" //generate by matlab
 
-#if DATA_TYPE == 8
+typedef signed short      Filtc;
+typedef signed short      Pixel;
+typedef signed short      FiltcV    __attribute__((vector_size (4)));
+typedef signed short      PixelV    __attribute__((vector_size (4)));
 
-    typedef signed char      Filtc;
-    typedef signed char      Pixel;
-    typedef signed char      FiltcV     __attribute__((vector_size (4)));
-    typedef signed char      PixelV     __attribute__((vector_size (4)));
- #ifdef DOTP
-    #define sumdotp(a, b, c)            __builtin_pulp_sdotsp4(a, b, c)
-    #define dotp(a, b)                  __builtin_pulp_dotsp4(a, b)
-    #define shuffle(a, b, c)            __builtin_pulp_shuffle2b(a, b, c)
- #endif
-#else
-
-    typedef signed short      Filtc;
-    typedef signed short      Pixel;
-    typedef signed short      FiltcV    __attribute__((vector_size (4)));
-    typedef signed short      PixelV    __attribute__((vector_size (4)));
- #ifdef DOTP
+#ifdef DOTP
     #define sumdotp(a, b, c)            __builtin_pulp_sdotsp2(a, b, c)
     #define dotp(a, b)                  __builtin_pulp_dotsp2(a, b)
     #define shuffle(a, b, c)            __builtin_pulp_shuffle2h(a, b, c)
- #endif
+    #define max_vec(a, b)               __builtin_pulp_max2(a, b)
+    #define addnr(S, Norm, Round)       __builtin_pulp_addRN(S, 0, Norm, Round);
 #endif
 
 #include "data_image.h" //generate by matlab
 
-#define clipu(a, zero, max)         __builtin_pulp_clipu(a, zero, max)
-#define addnr(S, Norm, Round)       __builtin_pulp_addRN(S, 0, Norm, Round);
+void __attribute__ ((noinline))  CNN_layer_Scalar       (Pixel * In, Pixel * Out, int R, int C, Filtc  * Kernel);
+void __attribute__ ((noinline))  CNN_layer_Scalar_Fused (Pixel * In, Pixel * Out, int R, int C, Filtc  * Kernel);
 
-void __attribute__ ((noinline))  Conv3x3_Scalar     (Pixel * In, Pixel * Out, int R, int C, Filtc  * Kernel);
-void __attribute__ ((noinline))  Conv3x3_Vector     (Pixel * In, Pixel * Out, int R, int C, Filtc  * Kernel);
-void __attribute__ ((noinline))  Conv5x5_Scalar     (Pixel * In, Pixel * Out, int R, int C, Filtc  * Kernel);
-void __attribute__ ((noinline))  Conv5x5_Vector     (Pixel * In, Pixel * Out, int R, int C, Filtc  * Kernel);
+void __attribute__ ((noinline))  CNN_layer_Vector       (Pixel * In, Pixel * Out, int R, int C, Filtc  * Kernel);
+void __attribute__ ((noinline))  CNN_layer_Vector_Fused (Pixel * In, Pixel * Out, int R, int C, Filtc  * Kernel);
+
+void __attribute__ ((noinline))  Conv5x5_Scalar         (Pixel * In, Pixel * Out, int R, int C, Filtc  * Kernel);
+void __attribute__ ((noinline))  Conv5x5_Vector         (Pixel * In, Pixel * Out, int R, int C, Filtc  * Kernel);
+
+void __attribute__ ((noinline))  Pool2x2                (Pixel * In_Img, Pixel * Out_Img, int R, int C);
 
 void __attribute__ ((noinline))  InitData               (Pixel * __restrict__ Img,    int size);
 void __attribute__ ((noinline))  InitZero               (Pixel * __restrict__ Img,    int size);

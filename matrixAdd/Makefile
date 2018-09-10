@@ -6,7 +6,6 @@ WORD ?= 8
 #8
 
 PULP_FC_ARCH_CFLAGS = -march=rv32imcxpulpv2 -D__riscv__
-#micro-riscy:  -march=rv32ic -DRV_ISA_RV32=1 -mreg=16 -D__riscv__
 #zero-riscy:   -march=rv32imcxpulpslim -DRV_ISA_RV32=1 -D__riscv__
 #riscy:        -march=rv32imcxpulpv2 -D__riscv__
 

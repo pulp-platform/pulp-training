@@ -1,17 +1,28 @@
+// Copyright 2017 ETH Zurich and University of Bologna.
+// Copyright and related rights are licensed under the Solderpad Hardware
+// License, Version 0.51 (the “License”); you may not use this file except in
+// compliance with the License.  You may obtain a copy of the License at
+// http://solderpad.org/licenses/SHL-0.51. Unless required by applicable law
+// or agreed to in writing, software, hardware and materials distributed under
+// this License is distributed on an “AS IS” BASIS, WITHOUT WARRANTIES OR
+// CONDITIONS OF ANY KIND, either express or implied. See the License for the
+// specific language governing permissions and limitations under the License.
+
+#include "pulp.h"
 #include "cnn_layer.h"
 #include <stdio.h>
 
 #define ROUNDBIT   (1 << (DATA_WIDTH -1 -1))
 #define SATURATION ((1 << (DATA_WIDTH -1)) -1)
 
-static Pixel __attribute__ ((section(".heapsram")))  Conv_Img[CONV_DIM];
+static Pixel PULP_L2_DATA  Conv_Img[CONV_DIM];
 
 void __attribute__ ((noinline)) CNN_layer_Scalar  (Pixel * In_Img, Pixel * Out_Img, int R, int C, Filtc  * Kernel)
 {
-  
+
   Conv5x5_Scalar(In_Img,Conv_Img,R,C,Kernel);
   Pool2x2(Conv_Img,Out_Img,R-4,C-4);
-  
+
 }
 
 void __attribute__ ((noinline)) Conv5x5_Scalar  (Pixel * In_Img, Pixel * Out_Img, int R, int C, Filtc  * Kernel)
@@ -59,7 +70,7 @@ void __attribute__ ((noinline)) Conv5x5_Scalar  (Pixel * In_Img, Pixel * Out_Img
   }
 }
 
-
+#ifdef DOTP
 void __attribute__ ((noinline)) CNN_layer_Vector  (Pixel * In_Img, Pixel * Out_Img, int R, int C, Filtc  * Kernel)
 {
 
@@ -228,7 +239,7 @@ void __attribute__ ((noinline)) Conv5x5_Vector  (Pixel * In_Img, Pixel * Out_Img
 
   }
 }
-
+#endif
 void __attribute__ ((noinline)) Pool2x2 (Pixel * In_Img, Pixel * Out_Img, int R, int C)
 {
   int r, c, t0, t1,k0, k1, r0, r1, c0, c1, i;

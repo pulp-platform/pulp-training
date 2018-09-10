@@ -7,107 +7,81 @@
 // this License is distributed on an “AS IS” BASIS, WITHOUT WARRANTIES OR
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the
 // specific language governing permissions and limitations under the License.
+
 #include "pulp.h"
-#include "convolution.h"
+#include "cnn_layer.h"
 
-void check_Conv5x5_Scalar();
-void check_Conv5x5_Vector();
+static Pixel PULP_L2_DATA  Out[OUT_DIM];
 
-RT_L2_DATA Pixel Out[IMG_DIM];
+void check_CNN_5x5_Scalar          ();
+void check_CNN_5x5_Vector          ();
 
 int main()
 {
   
-  int errors = 0;
-  
 #ifdef DOTP
-  check_Conv5x5_Vector();
+  check_CNN_5x5_Vector();
 #else
-  check_Conv5x5_Scalar();
+  check_CNN_5x5_Scalar();
 #endif
   
   return 0;
+  
 }
 
-void check_Conv5x5_Scalar() {
+void check_CNN_5x5_Scalar() {
   
   // start benchmark
-  Filtc Kernel5x5_Scalar[FILT_DIM];
-  Pixel In[IMG_DIM];
-  
-  printf("2D Convolution WINDOW=%d, DATA_WIDTH=%d\n",FILT_WIN,DATA_WIDTH);
-  InitZero(Out, IMG_DIM);
+  printf("CNN WINDOW=%d, DATA_WIDTH=%d\n",FILT_WIN,DATA_WIDTH);
+  InitZero(Out, OUT_DIM);
   
   reset_timer();
   start_timer();
   
-  Conv5x5_Scalar(In_Img, Out, IMG_ROW, IMG_COL, Filter_Kern);
+  CNN_layer_Scalar(In_Img, Out, IMG_ROW, IMG_COL, Filter_Kern);
   
   stop_timer();
   
   printf("Number of cycles: %d\n ",get_time());
   
-  checkresult(Out, Gold_Out_Img, IMG_DIM);
-  
 }
 
-void check_Conv5x5_Vector() {
+void check_CNN_5x5_Vector() {
   
-  printf("2D Convolution WINDOW=%d, DATA_WIDTH=%d\n",FILT_WIN,DATA_WIDTH);
-  InitZero(Out, IMG_DIM);
+  printf("CNN WINDOW=%d, DATA_WIDTH=%d\n",FILT_WIN,DATA_WIDTH);
+  
+  InitZero(Out, OUT_DIM);
   
   reset_timer();
   start_timer();
   
-  Conv5x5_Vector(In_Img, Out, IMG_ROW, IMG_COL, Filter_Kern);
+  CNN_layer_Vector(In_Img, Out, IMG_ROW, IMG_COL, Filter_Kern);
   
   stop_timer();
   printf("Number of cycles: %d\n ",get_time());
   
-  checkresult(Out, Gold_Out_Img, IMG_DIM);
-  
-}
-
-// load kernel
-void __attribute__ ((noinline)) InitKernel(Filtc * __restrict__ Kernel, int size)
-{
-  int i;
-  int n = size*size;
-  for (i=0; i < n; i++) {
-      Kernel[i] = Filter_Kern[i];
-  }
-}
-
-// load input img
-void __attribute__ ((noinline)) InitData(Pixel * __restrict__ Img, int size)
-{
-  int i;
-
-  for (i=0; i < size; i++) 
-      Img[i] = In_Img[i];
-
 }
 
 // load initialize out to 0
 void __attribute__ ((noinline)) InitZero(Pixel * __restrict__ Img, int size)
 {
   int i;
-
-  for (i=0; i < size; i++) 
-      Img[i] = 0;
+  
+  for (i=0; i < size; i++)
+    Img[i] = 0;
 
 }
 
-#define CONV2D_DEBUG
+#define CNN_DEBUG
 int  __attribute__ ((noinline)) checkresult(Pixel * __restrict__ Out, Pixel * __restrict__ OutGold, int N)
 {
   int i;
   int err = 0;
-
+  
   for (i = 0; i<N; i++) {
     if (Out[i]!=OutGold[i]) {
-#ifdef CONV2D_DEBUG
-      printf("At index %d: Actual value: %x: Expected: %x\n", i, Out[i],  OutGold[i]);
+#ifdef CNN_DEBUG
+      printf("At index %d: Actual value: %d: Expected: %d\n", i, Out[i],  OutGold[i]);
 #endif
       err++;
     }

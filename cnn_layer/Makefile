@@ -1,7 +1,7 @@
 
-PULP_APP = convolution
-PULP_APP_FC_SRCS = convolution.c conv_kernels.c
-PULP_APP_HOST_SRCS = convolution.c conv_kernels.c
+PULP_APP = cnn_layer
+PULP_APP_FC_SRCS = cnn_layer.c cnn_kernels.c
+PULP_APP_HOST_SRCS = cnn_layer.c cnn_kernels.c
 PULP_CFLAGS = -O3 -g
 #-DDOTP
 
