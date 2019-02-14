@@ -66,14 +66,14 @@ int main()
   *(udma_ctrl)        = 1 << 8; //enable clock
 
 
+  udma_traffic_gen    = (UDMA_TRAFF_GEN_ADDR + REG_RX_CFG);
+  *(udma_traffic_gen) = ((1 << 4) | (2 << 1) | 0);
+
   udma_traffic_gen    = (UDMA_TRAFF_GEN_ADDR + REG_RX_SADDR);
   *(udma_traffic_gen) = myTGdata;
 
   udma_traffic_gen    = (UDMA_TRAFF_GEN_ADDR + REG_RX_SIZE);
   *(udma_traffic_gen) = NUM_DATA*4;
-
-  udma_traffic_gen    = (UDMA_TRAFF_GEN_ADDR + REG_RX_CFG);
-  *(udma_traffic_gen) = ((1 << 4) | (2 << 1) | 1);
 
   udma_traffic_gen    = (UDMA_TRAFF_GEN_ADDR + REG_EXTERNAL_PER_SETUP);
   *(udma_traffic_gen) = ((NUM_DATA << 8) | 1);
