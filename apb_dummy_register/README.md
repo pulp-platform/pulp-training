@@ -48,7 +48,8 @@ Open all the waveforms involved
 - Log Interconnect
 - Peripheral Bus
 - apb_dummy_registers
-Identify the momemnt you are actually reading and writing your peripheral and measure the latency from the Core request to the actual response.
+Identify the momemnt you are actually reading and writing your peripheral and measure the
+latency from the Core request to the actual response.
 ```
 
 
