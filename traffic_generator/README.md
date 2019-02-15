@@ -61,6 +61,13 @@ Complete the FSM of the traffic generator to generate when there is a new valid 
 Remember, every new data generates a new valid and before sending the next data it should wait for the ready.
 ```
 
+```
+As you may have noticed from the udma_traffic_gen_rx FSM, the peripheral starts when the programmer writes 1
+to the bits 0 of the REG_EXTERNAL_PER_SETUP register. Once the transfer is done, the FSM should go to WAIT_CLEAR and wait
+the programmer to write 0 again to the same bit to go back to IDLE.
+```
+
+
 Now open the C program. First we enable the CLOCK in the udma_core then we need to set the starting address of our
 buffer in memory in REG_RX_SADDR, the number of bytes to transfer in REG_RX_SIZE and set the initial value (can be 0)
 and the number of elements.
