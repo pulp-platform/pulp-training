@@ -50,7 +50,6 @@ int main()
     #else
     acc += dotproduct(acc, vecA, vecB, NELEM);
     #endif
-
     #endif
      printf("acc is %d\n",acc);
   }
