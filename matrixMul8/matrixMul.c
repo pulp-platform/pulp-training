@@ -16,10 +16,12 @@
 
 void check_matrix_mul          ();
 
-void __attribute__ ((noinline)) matMul8(signed char * __restrict__ A, signed char * __restrict__ B, signed int * __restrict__ C, int N , int M);
+extern signed int matMul8(signed char* mA, signed char* mB, signed int* mC, int Row, int Col){}
+extern signed int matMul8_loopunroll(signed char* mA, signed char* mB, signed int* mC, int Row, int Col){}
+extern signed int matMul8_loopunroll_simd(signed char* mA, signed char* mB, signed int* mC, int Row, int Col){}
 
-void __attribute__ ((noinline)) matrix_init(signed char * __restrict__ A, signed char * __restrict__ B, signed int * __restrict__ C);
-unsigned int __attribute__ ((noinline)) matrix_check(signed int * __restrict__ C);
+void __attribute__ ((noinline)) matrix_init(signed char * A, signed char * B, signed int * C);
+unsigned int __attribute__ ((noinline)) matrix_check(signed int * C);
 
 
 

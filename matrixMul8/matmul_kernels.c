@@ -12,6 +12,7 @@ typedef signed char charV __attribute__((vector_size (4)));
 #define SumDotp(a, b, c) __builtin_pulp_sdotsp4(a, b, c)
 #define Dotp(a, b)       __builtin_pulp_dotsp4(a, b)
 
-void __attribute__ ((noinline)) matMul8(signed char * __restrict__ A, signed char * __restrict__ B, signed int * __restrict__ C, int N, int M) {
 
-}
+signed int matMul8(signed char* mA, signed char* mB, signed int* mC, int Row, int Col){}
+signed int matMul8_loopunroll(signed char* mA, signed char* mB, signed int* mC, int Row, int Col){}
+signed int matMul8_loopunroll_simd(signed char* mA, signed char* mB, signed int* mC, int Row, int Col){}
