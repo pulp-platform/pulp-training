@@ -43,7 +43,7 @@ unsigned int dotproduct(unsigned int acc, unsigned char* vA, unsigned char* vB, 
     jrstall = rt_perf_get(perf, RT_PERF_JR_STALL);
     imstall = rt_perf_get(perf, RT_PERF_IMISS);
 
-    printf("Perf of matrixAdd: \n \t cycles : %d \n \t instructions : %d \n \t load stalls : %d \n \t jump stalls : %d \n \t insrtructions stalls: %d \n\n", cycles, instr, ldstall, jrstall, imstall);
+    printf("Perf of dot product: \n \t cycles : %d \n \t instructions : %d \n \t load stalls : %d \n \t jump stalls : %d \n \t insrtructions stalls: %d \n\n", cycles, instr, ldstall, jrstall, imstall);
 
 
     return acc;
@@ -91,7 +91,7 @@ unsigned int dotproduct_loopunroll(unsigned int acc, unsigned char* vA, unsigned
     jrstall = rt_perf_get(perf, RT_PERF_JR_STALL);
     imstall = rt_perf_get(perf, RT_PERF_IMISS);
 
-    printf("Perf of matrixAdd: \n \t cycles : %d \n \t instructions : %d \n \t load stalls : %d \n \t jump stalls : %d \n \t insrtructions stalls: %d \n\n", cycles, instr, ldstall, jrstall, imstall);
+    printf("Perf of dot product: \n \t cycles : %d \n \t instructions : %d \n \t load stalls : %d \n \t jump stalls : %d \n \t insrtructions stalls: %d \n\n", cycles, instr, ldstall, jrstall, imstall);
 
 
     return acc;
@@ -140,7 +140,7 @@ unsigned int dotproduct_loopunroll_simd(unsigned int acc, unsigned char* vA, uns
     jrstall = rt_perf_get(perf, RT_PERF_JR_STALL);
     imstall = rt_perf_get(perf, RT_PERF_IMISS);
 
-    printf("Perf of matrixAdd: \n \t cycles : %d \n \t instructions : %d \n \t load stalls : %d \n \t jump stalls : %d \n \t insrtructions stalls: %d \n\n", cycles, instr, ldstall, jrstall, imstall);
+    printf("Perf of dot product: \n \t cycles : %d \n \t instructions : %d \n \t load stalls : %d \n \t jump stalls : %d \n \t insrtructions stalls: %d \n\n", cycles, instr, ldstall, jrstall, imstall);
 
 
     return acc;
