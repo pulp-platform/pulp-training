@@ -66,18 +66,9 @@ unsigned int dotproduct_loopunroll(unsigned int acc, unsigned char* vA, unsigned
     //start the monitoring
     rt_perf_start(perf);
 
-        asm volatile(
-#ifdef ADD_NOP
-            "c.nop;"
-#endif
-            "lp.setup x0,%[n_elem],stop_loop_lu;"
-            "p.lbu %[a], 1(%[addrA]!);"
-            "p.lbu %[b], 1(%[addrB]!);"
-            "p.lbu %[d], 1(%[addrA]!);"
-            "p.lbu %[e], 1(%[addrB]!);"
-            "p.mac %[c], %[a], %[b];"
-            "stop_loop_lu: p.mac %[c], %[d], %[e];"
-            : [c] "+r" (acc), [a] "+r" (elemA), [b] "+r" (elemB), [d] "+r" (elemD), [e] "+r" (elemD), [addrA] "+r" (vA), [addrB] "+r" (vB) : [n_elem] "r" (N>>1));
+
+    //ADD HERE YOUR OPTIMIZED VERSION
+    asm volatile();
 
     //stop the HW counter used for monitoring
     rt_perf_stop(perf);
@@ -115,18 +106,10 @@ unsigned int dotproduct_loopunroll_simd(unsigned int acc, unsigned char* vA, uns
     //start the monitoring
     rt_perf_start(perf);
 
-        asm volatile(
-#ifdef ADD_NOP
-            "c.nop;"
-#endif
-            "lp.setup x0,%[n_elem],stop_loop_simd;"
-            "p.lw %[a], 4(%[addrA]!);"
-            "p.lw %[b], 4(%[addrB]!);"
-            "p.lw %[d], 4(%[addrA]!);"
-            "p.lw %[e], 4(%[addrB]!);"
-            "pv.sdotup.b %[c], %[a], %[b];"
-            "stop_loop_simd: pv.sdotup.b %[c], %[d], %[e];"
-            : [c] "+r" (acc), [a] "+r" (elemA), [b] "+r" (elemB), [d] "+r" (elemD), [e] "+r" (elemD), [addrA] "+r" (vA), [addrB] "+r" (vB) : [n_elem] "r" (N>>3));
+
+
+    //ADD HERE YOUR OPTIMIZED VERSION with the use of SIMD instructions
+    asm volatile();
 
     //stop the HW counter used for monitoring
     rt_perf_stop(perf);
