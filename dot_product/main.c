@@ -51,7 +51,10 @@ int main()
     acc += dotproduct(acc, vecA, vecB, NELEM);
     #endif
     #endif
-     printf("acc is %d\n",acc);
+    if(acc != GOLDEN_VALUE)
+      printf("dot product is is %d instead of %d\n",acc, GOLDEN_VALUE);
+    else
+      printf("Nice! Well done! 0 errors\n");
   }
 
   return acc != GOLDEN_VALUE;
