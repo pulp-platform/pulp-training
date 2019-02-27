@@ -44,9 +44,9 @@ The modules `udma_traffic_gen_rx` and `udma_traffic_gen_tx` implement the periph
 In this example, this peripheral (traffic generator) is not connected to the external world (no PIN outside)
 and it does not implement any transmission protocol.
 The reception protocol (rx) in this case is just a sequence of writes to the memory starting from a programmed
-value up to that value + 256.
+value up to that value + another programmed value, see it later.
 
-We want the initial value being mapped in the last 16bits of the REG_EXTERNAL_PER_SETUP register and the
+We want the initial value being mapped in the most significant 16bits of the REG_EXTERNAL_PER_SETUP register and the
 number of data generated in the second byte of the same register.
 
 ```
