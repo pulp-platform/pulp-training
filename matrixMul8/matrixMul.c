@@ -14,11 +14,11 @@
 
 #include "dotMatrixMul8_stimuli.h"
 
-void check_matrix_mul          ();
+int check_matrix_mul          ();
 
-extern signed int matMul8(signed char* mA, signed char* mB, signed int* mC, int Row, int Col){}
-extern signed int matMul8_loopunroll(signed char* mA, signed char* mB, signed int* mC, int Row, int Col){}
-extern signed int matMul8_loopunroll_simd(signed char* mA, signed char* mB, signed int* mC, int Row, int Col){}
+extern signed int matMul8(signed char* mA, signed char* mB, signed int* mC, int Row, int Col);
+extern signed int matMul8_loopunroll(signed char* mA, signed char* mB, signed int* mC, int Row, int Col);
+extern signed int matMul8_loopunroll_simd(signed char* mA, signed char* mB, signed int* mC, int Row, int Col);
 
 void __attribute__ ((noinline)) matrix_init(signed char * A, signed char * B, signed int * C);
 unsigned int __attribute__ ((noinline)) matrix_check(signed int * C);
@@ -32,7 +32,7 @@ int main() {
 }
 
 
-void check_matrix_mul() {
+int check_matrix_mul() {
 
   int N = SIZE;
   int M = SIZE;
@@ -44,12 +44,12 @@ void check_matrix_mul() {
   matrix_init(matA,matB,matC);
 
     #ifdef USE_SIMD
-    acc += matMul8_loopunroll_simd(matA, matB, matC, N, M);
+    matMul8_loopunroll_simd(matA, matB, matC, N, M);
     #else
     #ifdef USE_LOOPUNROLLING
-    acc += matMul8_loopunroll(matA, matB, matC, N, M);
+    matMul8_loopunroll(matA, matB, matC, N, M);
     #else
-    acc += matMul8(matA, matB, matC, N, M);
+    matMul8(matA, matB, matC, N, M);
     #endif
     #endif
 
