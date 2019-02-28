@@ -60,17 +60,31 @@ int main()
   volatile int* udma_traffic_gen;
 
   init_data(myTGdata, NUM_DATA);
-  rt_freq_set(RT_FREQ_DOMAIN_PERIPH, 80*1000*1000);
+  rt_freq_set(RT_FREQ_DOMAIN_PERIPH, 40*1000*1000);
 
   udma_ctrl           = (UDMA_BASE_ADDR);
   *(udma_ctrl)        = 1 << 8; //enable clock
 
 
-  //enable, 2 means word (int32) and 0 not continuos transfer
+
+  udma_traffic_gen    = (UDMA_TRAFF_GEN_ADDR + REG_RX_SADDR);
+  *(udma_traffic_gen) = myTGdata;
+
+  udma_traffic_gen    = (UDMA_TRAFF_GEN_ADDR + REG_RX_SIZE);
+  *(udma_traffic_gen) = NUM_DATA*4;
+
   udma_traffic_gen    = (UDMA_TRAFF_GEN_ADDR + REG_RX_CFG);
   *(udma_traffic_gen) = ((1 << 4) | (2 << 1) | 0);
 
-  /*COMPLETE THE CODE HERE*/
+  udma_traffic_gen    = (UDMA_TRAFF_GEN_ADDR + REG_EXTERNAL_PER_SETUP);
+  *(udma_traffic_gen) = ((NUM_DATA << 8) | 1);
+
+  udma_traffic_gen_status = (UDMA_TRAFF_GEN_ADDR + REG_EXTERNAL_PER_STATUS);
+
+  //for(int i = 0; i< 1000000000; i++) asm volatile("nop");
+
+  while( !((*udma_traffic_gen_status) & 0x1) );
+  while( ((*udma_traffic_gen_status) & 0x1) );
 
   for(int i = 0; i<NUM_DATA;i++)
     printf("myTGdata[%d] is %x\n",i,myTGdata[i]);
