@@ -56,6 +56,7 @@ void __attribute__ ((noinline)) Conv3x3_Scalar  (Pixel * In_Img, Pixel * Out_Img
   }
 }
 
+//#define UNROLLED
 void __attribute__ ((noinline)) Conv5x5_Scalar  (Pixel * In_Img, Pixel * Out_Img, int R, int C, Filtc  * Kernel)
 {
   int r, c, k, i, j, w, t;
@@ -78,14 +79,43 @@ void __attribute__ ((noinline)) Conv5x5_Scalar  (Pixel * In_Img, Pixel * Out_Img
             (+2;-2) (+2;-1) (+2; 0) (+2;+1) (+2;+2)
         */
         for (i = -2; i <= 2; i++) {
-            for (j = -2; j <= 2; j++) {
 
+          #ifndef UNROLLED
+            for (j = -2; j <= 2; j++) {
                 k = (r+i)*R + (c+j); //coeff for one dimension matrix
                 data = In_Img[k];
                 w = (i+2)*FILT_WIN + (j+2);
                 coeff = Kernel[w];
                 S += (int)(coeff*data);
             }
+          #else
+                Pixel data0, data1, data2, data3, data4;
+                Filtc coeff0, coeff1, coeff2, coeff3, coeff4;
+                k = (r+i)*R + (c-2); //coeff for one dimension matrix
+                w = (i+2)*FILT_WIN;
+                asm volatile(
+                  "lh %[data0], 0x0(%[img0]);"
+                  "lh %[data1], 0x2(%[img0]);"
+                  "lh %[data2], 0x4(%[img0]);"
+                  "lh %[data3], 0x6(%[img0]);"
+                  "lh %[data4], 0x8(%[img0]);"
+                  "lh %[coeff0], 0x0(%[kern0]);"
+                  "lh %[coeff1], 0x2(%[kern0]);"
+                  "lh %[coeff2], 0x4(%[kern0]);"
+                  "lh %[coeff3], 0x6(%[kern0]);"
+                  "lh %[coeff4], 0x8(%[kern0]);"
+                  "p.mac %[acc], %[data0], %[coeff0];"
+                  "p.mac %[acc], %[data1], %[coeff1];"
+                  "p.mac %[acc], %[data2], %[coeff2];"
+                  "p.mac %[acc], %[data3], %[coeff3];"
+                  "p.mac %[acc], %[data4], %[coeff4];"
+                  : [data0] "+r" (data0), [data1] "+r" (data1), [data2] "+r" (data2), [data3] "+r" (data3), [data4] "+r" (data4),
+                    [coeff0] "+r" (coeff0), [coeff1] "+r" (coeff1), [coeff2] "+r" (coeff2), [coeff3] "+r" (coeff3), [coeff4] "+r" (coeff4),
+                    [acc] "+r" (S)
+                  : [img0] "r" (&In_Img[k]), [kern0] "r" (&Kernel[w]));
+
+          #endif
+
         }
 
         // Rounding
@@ -156,7 +186,7 @@ void __attribute__ ((noinline)) Conv3x3_Vector  (Pixel * In_Img, Pixel * Out_Img
           XX XX XX
 
           We want to load next line (D0, D1, D2) in vector new_data
-          new_data = {D0, D1, D2, 0} 
+          new_data = {D0, D1, D2, 0}
 
           Move each vector one line down
 
