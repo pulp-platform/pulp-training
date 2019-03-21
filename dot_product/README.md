@@ -2,10 +2,15 @@
 
 This application contain a simple dot product function between 2 byte-vectors of 1000 elements.
 
+The innermost kernel is written in assembler to give you the whole control of the instructions
+executed by the core.
+
+For a quick guide to use assembler in GCC have a look at https://gcc.gnu.org/onlinedocs/gcc/Extended-Asm.html
+
 ```
 Compile the application (make clean all)
 Generate the assember (make dis > dis.s)
-Run it in gui mode
+Run it in gui mode (make conf gui=1 run)
 ```
 
 Identify the meaniful part in the assembler. Check both the trace (in the build folder)
@@ -22,8 +27,8 @@ Complete the provided function and repeat the step above.
 
 ```
 How many cycles do you exept from such function?
-Why don't you have your expectations met?
-What can you do to solve it?
+Analyze the trace around your function. Where is the stall?
+Introduce the c.nop instruction to align the address of the first instruction of the HWloop to get best performance.
 ```
 
 ## Use of the SIMD instructions
@@ -33,13 +38,7 @@ that you find the PULP extensions of the RI5CY core (in its user_manual.doc)
 
 ```
 Complete the function.
-Repeat the step above.
-```
-
-Now open the udma_external_per_wrapper and see how it is organized.
-Open the configuration registers (udma_external_per_reg_if.sv)
-
-```
-What is the address of the register REG_TX_CFG?
 How many cycles do you exept from such function?
+Fix the HWloop first instruction address if needed.
+What is the speed up?
 ```
