@@ -13,8 +13,9 @@ Generate the assember (make dis > dis.s)
 Run it in gui mode (make conf gui=1 run)
 ```
 
-Identify the meaniful part in the assembler. Check both the trace (in the build folder)
-and the waveforms of the core.
+Identify the dot product parts in the assembler.
+After executing the code, check both the trace file in ./build/pulpissimo/trace_core_1f_0.log to see the instructions executed by the core.
+Can you find the dot product part?
 
 ```
 How many cycles do you exept from such function? Why?

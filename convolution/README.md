@@ -30,7 +30,7 @@ to force the use of special instrucions like for example the shuffle.
 Have a look at https://gcc.gnu.org/onlinedocs/gcc/Vector-Extensions.html
 for more information.
 
-The file convolution.h contains the vector data types and the built-in functions
+The file convolution.h explains the vector data types and the built-in functions
 you need during the exercise.
 
 2. Task 2

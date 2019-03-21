@@ -52,5 +52,12 @@ void __attribute__ ((noinline))  InitKernel             (Filtc * __restrict__ Ke
 
 int  __attribute__ ((noinline))  checkresult            (Pixel * __restrict__ Out, Pixel * __restrict__ OutGold, int N);
 
+// BUILT-IN
+
+//sumdotp(a, b, c)        --> performs dot product between the vector in b and c, the 32b scalar result is added to c
+//dotp(a, b)              --> performs dot product between the vector in b
+//shuffle(a, b, c)
+//clipu(a, zero, max)     --> returns a if a is between zero and max. If a < zero, it returns zero. If a > max, it returns max.
+//addnr(S, Norm, Round)   --> (S + Round) >> Norm, Round must be (1 << (Norm -1))
 
 #endif
