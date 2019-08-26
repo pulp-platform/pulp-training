@@ -18,7 +18,32 @@
 
 int main()
 {
-  printf("Hello !\n");
 
+#include "pulp.h"
+
+#define REG_CORESTATUS 0x10000000
+
+int main()
+{
+  
+  volatile int wait;
+  
+  printf("Starting Power Analysis\n");
+  
+  if (( get_core_id() == 0) && (is_fc() == 0))
+    {
+      
+      *(int*)(REG_CORESTATUS) = 0xABBAABBA;
+      
+      for (int i = 0; i<100; i++)
+	wait++;
+      
+      *(int*)(REG_CORESTATUS) = 0xDEADCACA;
+      
+    }
+  
+  printf("Done!\n");
+  
   return 0;
+
 }
