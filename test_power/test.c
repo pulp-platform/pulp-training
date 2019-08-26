@@ -16,14 +16,11 @@
 
 #include <stdio.h>
 
-int main()
-{
-
 #include "pulp.h"
-
+  
 #define REG_CORESTATUS 0x10000000
-
-int main()
+  
+  int main()
 {
   
   volatile int wait;
@@ -45,5 +42,6 @@ int main()
   printf("Done!\n");
   
   return 0;
-
+  
 }
+
