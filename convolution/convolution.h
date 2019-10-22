@@ -18,7 +18,7 @@
     typedef signed char      Pixel;
     typedef signed char      FiltcV     __attribute__((vector_size (4)));
     typedef signed char      PixelV     __attribute__((vector_size (4)));
- #ifdef DOTP
+ #ifdef PULP_EXT
     #define sumdotp(a, b, c)            __builtin_pulp_sdotsp4(a, b, c)
     #define dotp(a, b)                  __builtin_pulp_dotsp4(a, b)
     #define shuffle(a, b, c)            __builtin_pulp_shuffle2b(a, b, c)
@@ -29,7 +29,7 @@
     typedef signed short      Pixel;
     typedef signed short      FiltcV    __attribute__((vector_size (4)));
     typedef signed short      PixelV    __attribute__((vector_size (4)));
- #ifdef DOTP
+ #ifdef PULP_EXT
     #define sumdotp(a, b, c)            __builtin_pulp_sdotsp2(a, b, c)
     #define dotp(a, b)                  __builtin_pulp_dotsp2(a, b)
     #define shuffle(a, b, c)            __builtin_pulp_shuffle2h(a, b, c)

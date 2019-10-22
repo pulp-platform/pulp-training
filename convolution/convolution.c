@@ -20,8 +20,12 @@ int main()
 
   int errors = 0;
 
-#ifdef DOTP
-  check_Conv5x5_Vector();
+#ifdef PULP_EXT
+  #ifdef DOTP
+    check_Conv5x5_Vector();
+  #else
+    check_Conv5x5_Scalar();
+  #endif
 #else
   check_Conv5x5_Scalar();
 #endif
