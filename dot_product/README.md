@@ -10,7 +10,7 @@ For a quick guide to use assembler in GCC have a look at https://gcc.gnu.org/onl
 ```
 Compile the application (make clean all)
 Generate the assember (make dis > dis.s)
-Run it in gui mode (make conf gui=1 run)
+Run it in gui mode (make run gui=1)
 ```
 
 Identify the dot product parts in the assembler.
@@ -34,8 +34,7 @@ Introduce the c.nop instruction to align the address of the first instruction of
 
 ## Use of the SIMD instructions
 
-Rewrite the function to implement the dot product using the sum of dot product function
-that you find the PULP extensions of the RI5CY core (in its user_manual.doc)
+Rewrite the function to implement the dot product using the sum of dot product function, which is part of the PULP extensions in the RI5CY core (have a look at the user manual)
 
 ```
 Complete the function.

@@ -19,9 +19,8 @@ The filter has the same Q1.13 format.
     - Report the performance in the form of MAC/cycles.
     - [Optional] Rewrite the convolutional part of the Conv5x5_Scalar function to
     exploit loop unrolling as seen in the previous exercise.
-        - Can you beat the compiler? Why?
 
-To exploit the PULP extensions, you need to let the compiler now that we want to use
+To exploit the PULP extensions, you need to let the compiler know that we want to use
 vectors instead of normal scalar number.
 
 To do so, GCC has some special attribute to be used in the data type and built-in functions
