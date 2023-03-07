@@ -109,8 +109,8 @@ void __attribute__ ((noinline)) Conv5x5_Scalar  (Pixel * In_Img, Pixel * Out_Img
                   "p.mac %[acc], %[data2], %[coeff2];"
                   "p.mac %[acc], %[data3], %[coeff3];"
                   "p.mac %[acc], %[data4], %[coeff4];"
-                  : [data0] "+r" (data0), [data1] "+r" (data1), [data2] "+r" (data2), [data3] "+r" (data3), [data4] "+r" (data4),
-                    [coeff0] "+r" (coeff0), [coeff1] "+r" (coeff1), [coeff2] "+r" (coeff2), [coeff3] "+r" (coeff3), [coeff4] "+r" (coeff4),
+                  : [data0] "=r" (data0), [data1] "=r" (data1), [data2] "=r" (data2), [data3] "=r" (data3), [data4] "=r" (data4),
+                    [coeff0] "=r" (coeff0), [coeff1] "=r" (coeff1), [coeff2] "=r" (coeff2), [coeff3] "=r" (coeff3), [coeff4] "=r" (coeff4),
                     [acc] "+r" (S)
                   : [img0] "r" (&In_Img[k]), [kern0] "r" (&Kernel[w]));
 
