@@ -68,7 +68,7 @@ unsigned int dotproduct_loopunroll(unsigned int acc, unsigned char* vA, unsigned
 
 
     //ADD HERE YOUR OPTIMIZED VERSION
-    asm volatile();
+    // asm volatile();
 
     //stop the HW counter used for monitoring
     rt_perf_stop(perf);
@@ -109,7 +109,7 @@ unsigned int dotproduct_loopunroll_simd(unsigned int acc, unsigned char* vA, uns
 
 
     //ADD HERE YOUR OPTIMIZED VERSION with the use of SIMD instructions
-    asm volatile();
+    // asm volatile();
 
     //stop the HW counter used for monitoring
     rt_perf_stop(perf);
